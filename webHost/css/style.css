@@ -1,0 +1,203 @@
+.button1{
+     background-color: #fcf403;
+    color: #FFFFFF;
+    text-align: center;
+    font-size: 28px;
+	border-radius: 36px;
+
+	
+}
+
+.button2{
+     background-color: #0352fc;
+    color: #FFFFFF;
+    text-align: center;
+    font-size: 28px;
+	border-radius: 36px;
+}
+
+.button3{
+     background-color: #FF0000;
+    color: #FFFFFF;
+    text-align: center;
+    font-size: 28px;
+	border-radius: 36px;
+}
+
+.button4{
+     background-color: #10e617;
+    color: #FFFFFF;
+    text-align: center;
+    font-size: 28px;
+	border-radius: 36px;
+	
+}
+
+.button1:hover{
+	background-color: #8c8a06;
+    color: #fcf403;
+    text-align: center;
+    font-size: 28px;
+	box-shadow: 5px 5px grey;
+	
+	
+}
+.button2:hover{
+	background-color: #032257;
+    color: #0352fc;
+    text-align: center;
+    font-size: 28px;
+	box-shadow: 5px 5px grey;
+	
+	
+}
+.button3:hover{
+	background-color: #85040d;
+    color: #FF0000;
+    text-align: center;
+    font-size: 28px;
+	box-shadow: 5px 5px grey;
+	
+	
+}
+.button4:hover{
+	background-color: #066b0b;
+    color: #10e617;
+    text-align: center;
+    font-size: 28px;
+	box-shadow: 5px 5px grey;
+	
+	
+}
+
+.button1:active {
+  background-color: #3e8e41;
+ 
+  transform: translateY(4px);
+}
+.button2:active {
+  background-color: #3e8e41;
+  
+  transform: translateY(4px);
+}
+.button3:active {
+  background-color: #3e8e41;
+ 
+  transform: translateY(4px);
+}
+.button4:active {
+  background-color: #3e8e41;
+ 
+  transform: translateY(4px);
+}
+
+.button1:focus { outline: none; }
+.button2:focus { outline: none; }
+.button3:focus { outline: none; }
+.button4:focus { outline: none; }
+
+
+.switch {
+  position: relative;
+  /* No line-break after the element, so the element can sit next to other elements.*/
+  display: inline-block;
+  width: 60px;
+  height: 34px;
+}
+
+.switch:hover{
+	width: 63px;
+	height: 40px;
+}
+
+.switch input {
+  /* This makes the default checkbox disappear */
+  opacity: 0;
+  width: 0px;
+  height: 0px;
+}
+
+.toggle {
+  position: absolute;
+  cursor: pointer;
+  top: 0px;
+  left: 0px;
+  right: 0px;
+  bottom: 0px;
+  padding: 1px 1px 1px 1px;
+  border: 1px solid #C0C0C0;
+  height: 34px;
+  border-radius: 20px;
+
+  /* WebKit */
+  -webkit-transition: 0.5s;
+  /* Mozilla */
+  -moz-transition: 0.5s;
+  /* Opera */
+  -o-transition: 0.5s;
+  /* Internet Explorer */
+  -ms-transition: 0.5s;
+  /* CSS3 */
+  transition: 0.5s;
+}
+
+.toggle:before {
+  position: absolute;
+  content: "";
+  height: 26px;
+  width: 26px;
+  left: 5px;
+  bottom: 5px;
+  background-color: #000000;
+  border-radius: 20px;
+
+  /* WebKit */
+  -webkit-transition: 0.5s;
+  /* Mozilla */
+  -moz-transition: 0.5s;
+  /* Opera */
+  -o-transition: 0.5s;
+  /* Internet Explorer */
+  -ms-transition: 0.5s;
+  /* CSS3 */
+  transition: 0.5s;
+
+}
+
+input:checked+.toggle {
+  background-color: #FF0000;
+}
+
+input:checked+.toggle:before {
+  /* WebKit */
+  -webkit-transform: translateX(26px);
+  /* Mozilla */
+  -moz-transform: translateX(26px);
+  /* Opera */
+  -o-transform: translateX(26px);
+  /* Internet Explorer */
+  -ms-transform: translateX(26px);
+  /* CSS3 */
+  transform: translateX(26px);
+}
+
+/* Select Styling*/
+select {
+  width: 200px;
+  padding: 5px 5px 5px 5px;
+  font-size: 16px;
+  border: 1px solid #C0C0C0;
+  height: 34px;
+  border-radius: 20px;
+
+  /* WebKit */
+  -webkit-appearance: none;
+  /* Mozilla */
+  -moz-appearance: none;
+  /* Opera */
+  -o-appearance: none;
+  /* Internet Explorer */
+  -ms-appearance: none;
+  /* CSS3 */
+  appearance: none;
+}
