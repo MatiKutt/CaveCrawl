@@ -81,7 +81,7 @@ function onPageLoad()
 			   console.log("register function");
     }
 	console.log("try to fetch manifest");
-	
+	initEnemy();
 	
 	
 }
@@ -127,7 +127,15 @@ function GameObject(name, img, health,x,y) {
 
 
 
-
+function initEnemy()
+{
+	enemy.x = Math.floor((Math.random() * 9) + 1) * 35;
+	enemy.y = Math.floor((Math.random() * 9) + 1) * 35;
+	if (enemy.x == 35 && enemy.y == 35)
+	{
+		initEnemy();
+	}
+}
 
 // The GamerInput is an Object that holds the Current
 // GamerInput (Left, Right, Up, Down)
@@ -186,6 +194,10 @@ function moveUp(){
 	if (playerTurn)
 	{
 	player.nextMovePositionY = player.y - 35;
+	if (player.nextMovePositionY == 0)
+	{
+		player.nextMovePositionY = player.y;
+	}
 	gamerInput = new GamerInput("Up");
 	console.log("up");
 	playerTurn = false;
@@ -194,9 +206,13 @@ function moveUp(){
 }
 
 function moveDown(){
-	if (playerTurn)
+	if (playerTurn )
 	{
 	player.nextMovePositionY = player.y + 35;
+	if (player.nextMovePositionY == 315)
+	{
+		player.nextMovePositionY = player.y;
+	}
 	 gamerInput = new GamerInput("Down");
 	console.log("down");
 	playerTurn = false;
@@ -205,13 +221,9 @@ function moveDown(){
 }
 
 
-function update() {
-    // Iterate through all GameObjects
-    // Updating position and gamestate
-    // console.log("Update");
-	updateScore();
-	
-	
+
+function takeEnemyTurn()
+{
 	if (playerTurn == false)
 	{
 		
@@ -251,10 +263,15 @@ function update() {
 	}
 	
 	
+	if (enemy.nextMovePositionX == player.nextMovePositionX && enemy.nextMovePositionY==player.nextMovePositionY)
+	{
+		console.log("player gets hit");
+		player.health -=30;
+		playerTurn = true;
+	}
 	
 	
-	
-	if (enemy.x < enemy.nextMovePositionX)
+	else if (enemy.x < enemy.nextMovePositionX)
 	{
 		enemy.x+=1;
 		console.log("enemy moving rigfht");
@@ -294,6 +311,27 @@ function update() {
 	
 	
 	
+	
+	
+	
+	
+}
+
+function update() {
+    // Iterate through all GameObjects
+    // Updating position and gamestate
+    // console.log("Update");
+	updateScore();
+	
+	
+	takeEnemyTurn();
+	
+	
+	if (player.x == enemy.x && player.y == enemy.y && playerTurn == false)
+	{
+		console.log("player gets hit");
+		player.health -=30;
+	}
 	
 	if (gamerInput.action === "Up") {
 		  if (player.y != player.nextMovePositionY)
