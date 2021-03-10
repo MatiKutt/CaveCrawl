@@ -37,6 +37,24 @@ var context = canvas.getContext("2d");
 	var playerTurn = true;
 	
 	
+	
+	var initial = new Date().getTime();
+  var currentFrame = 0;
+  
+  var current; // current time
+
+// Default GamerInput is set to None
+var gamerInput = new GamerInput("None"); //No Input
+
+// Default Player
+var player = new GameObject("Player", sprite, 100,35,35);
+var enemy = new GameObject("enemy", sprite, 100,35*8,35*8);
+var doorKey = new keyObject();
+// Gameobjects is a collection of the Actors within the game
+	
+	
+	
+	
 // Reading Level Information from a file
   var readJSONFromURL = function (url, callback) {
     var xhr = new XMLHttpRequest();
@@ -81,7 +99,7 @@ function onPageLoad()
 			   console.log("register function");
     }
 	console.log("try to fetch manifest");
-	initEnemy();
+	initLevel();
 	
 	
 }
@@ -125,13 +143,35 @@ function GameObject(name, img, health,x,y) {
 	
 }
 
+function keyObject() {
+	
+	var keySprite = new Image();
+	keySprite.src = './img/Key.png';
+	
+    this.img = keySprite;
+	this.active = true;
+    this.x = 0;
+    this.y = 0;
+	
+}
+
+function initLevel()
+{
+	initEnemy();
+	player.x = 35;
+	player.y = 35;
+	
+	doorKey.x = Math.floor((Math.random() * 8) + 1) * 35;	
+	doorKey.y = Math.floor((Math.random() * 8) + 1) * 35;
+	doorKey.active = true;
+}
 
 
 function initEnemy()
 {
-	enemy.x = Math.floor((Math.random() * 9) + 1) * 35;
-	enemy.y = Math.floor((Math.random() * 9) + 1) * 35;
-	if (enemy.x == 35 && enemy.y == 35)
+	enemy.x = Math.floor((Math.random() * 8) + 1) * 35;
+	enemy.y = Math.floor((Math.random() * 8) + 1) * 35;
+	if (enemy.x == 35 || enemy.y == 35)
 	{
 		initEnemy();
 	}
@@ -143,18 +183,7 @@ function GamerInput(input) {
     this.action = input;
 }
  
-  var initial = new Date().getTime();
-  var currentFrame = 0;
-  
-  var current; // current time
 
-// Default GamerInput is set to None
-var gamerInput = new GamerInput("None"); //No Input
-
-// Default Player
-var player = new GameObject("Player", sprite, 100,35,35);
-var enemy = new GameObject("enemy", sprite, 100,35*8,35*8);
-// Gameobjects is a collection of the Actors within the game
 
 // Process keyboard input event
 function input(event) {
@@ -171,6 +200,11 @@ function moveLeft(){
 	{
 	gamerInput = new GamerInput("Left");
 	player.nextMovePositionX = player.x - 35;
+	if (player.nextMovePositionX == 0)
+	{
+		player.nextMovePositionX = player.x;
+	}
+	
 	console.log("left");
 	playerTurn = false;
 	enemyNeedsMoveLocation = true;
@@ -181,6 +215,10 @@ function moveRight(){
 	if (playerTurn)
 	{
 	player.nextMovePositionX = player.x + 35;
+	if (player.nextMovePositionX == 315)
+	{
+		player.nextMovePositionX = player.x;
+	}
 	gamerInput = new GamerInput("Right");
 	console.log("right");
 	playerTurn = false;
@@ -327,6 +365,17 @@ function update() {
 	takeEnemyTurn();
 	
 	
+	if (player.x == 280 && player.y == 280 && doorKey.active == false)
+	{
+		initLevel();
+	}
+	
+	if (player.x == doorKey.x && player.y == doorKey.y)
+	{
+		doorKey.active = false;
+	}
+	
+	
 	if (player.x == enemy.x && player.y == enemy.y && playerTurn == false)
 	{
 		console.log("player gets hit");
@@ -395,7 +444,7 @@ function draw() {
 	
 	context.clearRect(0, 0, canvas.width * 4, canvas.height * 4);
 
-
+	
 
     // Sprite
    
@@ -435,7 +484,14 @@ function draw() {
 	context.drawImage(player.img, player.x,player.y);
 	context.drawImage(enemy.img, enemy.x,enemy.y);
 	animate();
-	
+	if (doorKey.active)
+	{
+	context.drawImage(doorKey.img,doorKey.x,doorKey.y);
+	}
+	else 
+	{
+		context.drawImage(doorKey.img,player.x,player.y);
+	}
    var width = 100;
    var height = 20;
    var max = 100;
