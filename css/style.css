@@ -1,3 +1,26 @@
+
+
+.buttons{
+padding-left: 0;
+ margin-left: auto;
+  margin-right: auto;
+ 
+}
+body {
+
+	background-image: url('../img/BrickWall.png');
+	background-repeat: repeat;
+	
+}
+
+canvas {
+	 padding-left: 0;
+    padding-right: 0;
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
+	width: 30vw;
+}
 .button1{
      background-color: #fcf403;
     color: #FFFFFF;

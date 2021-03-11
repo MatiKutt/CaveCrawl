@@ -126,8 +126,9 @@ function enemySwitch(){
 function setName(){
 	
 	console.log("setName");
-	document.getElementById("Name").innerHTML = search[1];
-    console.log("Weapon Selected");
+	var name =  search[1].replace("+"," ");
+	document.getElementById("Name").innerHTML = name;
+    
 }
 
 
@@ -418,18 +419,7 @@ function update() {
 
 
 function weaponSelection() {
-	console.log("weaponSelect");
-  var selection = document.getElementById("equipment").value;
-  console.log(selection);
-  var active = document.getElementById("active");
-  console.log(active);
-  if (active.checked == true) {
-    document.getElementById("HUD").innerHTML = selection + " active ";
-    console.log("Weapon Active");
-  } else {
-    document.getElementById("HUD").innerHTML = selection + " selected ";
-    console.log("Weapon Selected");
-  }
+
 }
 
 
@@ -552,11 +542,11 @@ var options = [{
   }
 ];
 
-var selectBox = document.getElementById('equipment');
+
 
 for (var i = 0; i < options.length; i++) {
   var option = options[i];
-  selectBox.options.add(new Option(option.text, option.value, option.selected));
+ 
 }
 
 
