@@ -6,3 +6,11 @@ body {
   background-size: 100vw;
 }
 
+input{
+	
+	padding-left: 0;
+	margin-left: auto;
+	margin-right: auto;
+	
+	
+}

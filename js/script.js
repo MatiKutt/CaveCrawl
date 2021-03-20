@@ -162,6 +162,10 @@ function initLevel()
 	player.x = 35;
 	player.y = 35;
 	
+	player.nextMovePositionX = player.x;
+	player.nextMovePositionY = player.y;
+	
+	
 	doorKey.x = Math.floor((Math.random() * 8) + 1) * 35;	
 	doorKey.y = Math.floor((Math.random() * 8) + 1) * 35;
 	doorKey.active = true;
@@ -170,12 +174,15 @@ function initLevel()
 
 function initEnemy()
 {
+	
 	enemy.x = Math.floor((Math.random() * 8) + 1) * 35;
 	enemy.y = Math.floor((Math.random() * 8) + 1) * 35;
 	if (enemy.x == 35 || enemy.y == 35)
 	{
 		initEnemy();
 	}
+	enemy.nextMovePositionX = enemy.x;
+	enemy.nextMovePositionY = enemy.y;
 }
 
 // The GamerInput is an Object that holds the Current
@@ -356,13 +363,26 @@ function takeEnemyTurn()
 	
 }
 
+
+function playerDies(){
+	initLevel();
+	player.health = 100;
+	localStorage.setItem("Health",100);
+	
+	
+}
+
+
 function update() {
     // Iterate through all GameObjects
     // Updating position and gamestate
     // console.log("Update");
 	updateScore();
+	if (player.health <=0)
+	{
+		playerDies();
 	
-	
+	}
 	takeEnemyTurn();
 	
 	
