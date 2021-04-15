@@ -5,6 +5,7 @@
 
 var gameScore;
 	var enemyNeedsMoveLocation = false;
+var floor = 0;
 
  	var canvas = document.getElementById("the_canvas");
  // get 2D context for this canvas
@@ -56,7 +57,7 @@ var context = canvas.getContext("2d");
 var gamerInput = new GamerInput("None"); //No Input
 
 // Default Player
-var player = new GameObject("Player", sprite, 100,35,35);
+var player = new GameObject("Player", sprite, localStorage.getItem("health"),35,35);
 var enemy = new GameObject("enemy", enemySprite, 100,35*8,35*8);
 var walls = new Array (new GameObject("wall", wallSprite, 100, 35 * 4, 35 * 4), new GameObject("wall", wallSprite, 100, 35 * 4, 35 * 4), new GameObject("wall", wallSprite, 100, 35 * 4, 35 * 4), new GameObject("wall", wallSprite, 100, 35 * 4, 35 * 4));
 var doorKey = new keyObject();
@@ -115,8 +116,9 @@ function onPageLoad()
 }
 
 function updateScore() {
-    document.getElementById("Points").innerHTML = gameScore;
 
+    document.getElementById("Points").innerHTML ="Floor :" + String(floor);
+	
 }
 	
 	
@@ -145,7 +147,7 @@ function setName(){
 function GameObject(name, img, health,x,y) {
     this.name = name;
     this.img = img;
-    this.health = localStorage.getItem("health");
+    this.health = health;
 	console.log(health);
     this.x = x;
     this.y = y;
@@ -171,6 +173,9 @@ function initLevel()
 	initEnemy();
 	player.x = 35;
 	player.y = 35;
+	
+	
+	
 	
 	player.nextMovePositionX = player.x;
 	player.nextMovePositionY = player.y;
@@ -239,7 +244,7 @@ function moveLeft(){
 		}
 	}
 	
-	else if (player.nextMovePositionX == 0 || (player.nextMovePositionX == walls[i].x && player.nextMovePositionY == walls[i].y)  )
+	else if (player.nextMovePositionX == 0)
 	{
 		player.nextMovePositionX = player.x;
 	}
@@ -269,12 +274,11 @@ function moveRight(){
 		}
 	}
 	
-	else if (player.nextMovePositionX == 315 || (player.nextMovePositionX == walls[i].x && player.nextMovePositionY == walls[i].y) )
+	else if (player.nextMovePositionX == 315)
 	{
-		if (walls[i].active)
-		{
+		
 		player.nextMovePositionX = player.x;
-		}
+		
 	}
 	}
 	gamerInput = new GamerInput("Right");
@@ -293,25 +297,22 @@ function moveUp(){
 	
 	for (i = 0; i < 4; i++)
 	{
-	if (player.nextMovePositionX == walls[i].x && player.nextMovePositionY == walls[i].y && walls[i].active)
-	{
-		player.nextMovePositionY = player.y;
-		walls[i].health-=50;
+		if (player.nextMovePositionX == walls[i].x && player.nextMovePositionY == walls[i].y && walls[i].active)
+		{
+			player.nextMovePositionY = player.y;
+			walls[i].health-=50;
 		
-		if (walls[i].health <=0)
-		{
-			walls[i].active = false;
+			if (walls[i].health <=0)
+			{
+				walls[i].active = false;
+			}
 		}
-	}
 	
 	
-	else if (player.nextMovePositionY == 0 || (player.nextMovePositionX == walls[i].x && player.nextMovePositionY == walls[i].y) )
-	{
-		if (walls[i].active)
+		else if (player.nextMovePositionY == 0)
 		{
-		player.nextMovePositionY = player.y;
+			player.nextMovePositionY = player.y;
 		}
-	}
 	}
 	gamerInput = new GamerInput("Up");
 	console.log("up");
@@ -338,12 +339,11 @@ function moveDown(){
 		}
 	}
 	
-	else if (player.nextMovePositionY == 315 || (player.nextMovePositionX == walls[i].x && player.nextMovePositionY == walls[i].y) )
+	else if (player.nextMovePositionY == 315)
 	{
-		if (walls[i].active)
-		{
+		
 		player.nextMovePositionY = player.y;
-		}
+		
 	}
 	
 	}
@@ -469,7 +469,7 @@ function takeEnemyTurn()
 function playerDies(){
 	initLevel();
 	player.health = 100;
-	localStorage.setItem("Health",100);
+	localStorage.setItem("health",100);
 	
 	
 }
@@ -480,16 +480,24 @@ function update() {
     // Updating position and gamestate
     // console.log("Update");
 	updateScore();
+	
+	console.log(localStorage.getItem("health"));
+	localStorage.setItem("health",player.health);
+	
+	
+	
+	
 	if (player.health <=0)
 	{
 		playerDies();
-	
+		floor = 0;
 	}
 	takeEnemyTurn();
 	
-	
+	//if player is at the exit, and has the key
 	if (player.x == 280 && player.y == 280 && doorKey.active == false)
 	{
+		floor++;
 		initLevel();
 	}
 	
