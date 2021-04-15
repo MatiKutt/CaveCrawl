@@ -22,6 +22,7 @@ var context = canvas.getContext("2d");
 	var enemyMoving = false;
 	var sprite1 = new Image();
 	var sprite = new Image();
+	
     sprite.src = "./img/Player.png"; // Frames 1 to 6
 	sprite1.src = "./img/1to6.png";
 
@@ -34,9 +35,17 @@ var context = canvas.getContext("2d");
 	var wallSprite = new Image();
 	wallSprite.src = './img/BrickWall.png';
 	
+	
+	var wallSpriteBroken = new Image();
+	wallSpriteBroken.src = './img/BrickWallBroken.png';
+	
+	var wallSpriteBroken2 = new Image();
+	wallSpriteBroken2.src = './img/BrickWallBroken2.png';
+	
 	var playerTurn = true;
 	
-	
+	var enemySprite = new Image();
+	enemySprite.src = "./img/Enemy.png";
 	
 	var initial = new Date().getTime();
   var currentFrame = 0;
@@ -48,7 +57,8 @@ var gamerInput = new GamerInput("None"); //No Input
 
 // Default Player
 var player = new GameObject("Player", sprite, 100,35,35);
-var enemy = new GameObject("enemy", sprite, 100,35*8,35*8);
+var enemy = new GameObject("enemy", enemySprite, 100,35*8,35*8);
+var walls = new Array (new GameObject("wall", wallSprite, 100, 35 * 4, 35 * 4), new GameObject("wall", wallSprite, 100, 35 * 4, 35 * 4), new GameObject("wall", wallSprite, 100, 35 * 4, 35 * 4), new GameObject("wall", wallSprite, 100, 35 * 4, 35 * 4));
 var doorKey = new keyObject();
 // Gameobjects is a collection of the Actors within the game
 	
@@ -141,7 +151,7 @@ function GameObject(name, img, health,x,y) {
     this.y = y;
 	var nextMovePositionX = 0;
 	var nextMovePositionY = 0;
-	
+	var active = true;
 }
 
 function keyObject() {
@@ -165,6 +175,13 @@ function initLevel()
 	player.nextMovePositionX = player.x;
 	player.nextMovePositionY = player.y;
 	
+	for (i = 0 ; i < 4; i++)
+	{
+	walls[i].health = 100;
+	walls[i].x =Math.floor((Math.random() * 8) + 1) * 35;
+	walls[i].y = Math.floor((Math.random() * 8) + 1) * 35
+	walls[i].active = true;
+	}
 	
 	doorKey.x = Math.floor((Math.random() * 8) + 1) * 35;	
 	doorKey.y = Math.floor((Math.random() * 8) + 1) * 35;
@@ -208,11 +225,25 @@ function moveLeft(){
 	{
 	gamerInput = new GamerInput("Left");
 	player.nextMovePositionX = player.x - 35;
-	if (player.nextMovePositionX == 0)
+	
+	for (i = 0; i < 4; i++)
+	{
+	if (player.nextMovePositionX == walls[i].x && player.nextMovePositionY == walls[i].y && walls[i].active)
+	{
+		player.nextMovePositionX = player.x;
+		walls[i].health-=50;
+		
+		if (walls[i].health <=0)
+		{
+			walls[i].active = false;
+		}
+	}
+	
+	else if (player.nextMovePositionX == 0 || (player.nextMovePositionX == walls[i].x && player.nextMovePositionY == walls[i].y)  )
 	{
 		player.nextMovePositionX = player.x;
 	}
-	
+	}
 	console.log("left");
 	playerTurn = false;
 	enemyNeedsMoveLocation = true;
@@ -223,9 +254,28 @@ function moveRight(){
 	if (playerTurn)
 	{
 	player.nextMovePositionX = player.x + 35;
-	if (player.nextMovePositionX == 315)
+	
+	
+	for (i = 0; i < 4; i++)
+	{
+	if (player.nextMovePositionX == walls[i].x && player.nextMovePositionY == walls[i].y && walls[i].active)
 	{
 		player.nextMovePositionX = player.x;
+		walls[i].health-=50;
+		
+		if (walls[i].health <=0)
+		{
+			walls[i].active = false;
+		}
+	}
+	
+	else if (player.nextMovePositionX == 315 || (player.nextMovePositionX == walls[i].x && player.nextMovePositionY == walls[i].y) )
+	{
+		if (walls[i].active)
+		{
+		player.nextMovePositionX = player.x;
+		}
+	}
 	}
 	gamerInput = new GamerInput("Right");
 	console.log("right");
@@ -240,9 +290,28 @@ function moveUp(){
 	if (playerTurn)
 	{
 	player.nextMovePositionY = player.y - 35;
-	if (player.nextMovePositionY == 0)
+	
+	for (i = 0; i < 4; i++)
+	{
+	if (player.nextMovePositionX == walls[i].x && player.nextMovePositionY == walls[i].y && walls[i].active)
 	{
 		player.nextMovePositionY = player.y;
+		walls[i].health-=50;
+		
+		if (walls[i].health <=0)
+		{
+			walls[i].active = false;
+		}
+	}
+	
+	
+	else if (player.nextMovePositionY == 0 || (player.nextMovePositionX == walls[i].x && player.nextMovePositionY == walls[i].y) )
+	{
+		if (walls[i].active)
+		{
+		player.nextMovePositionY = player.y;
+		}
+	}
 	}
 	gamerInput = new GamerInput("Up");
 	console.log("up");
@@ -255,9 +324,28 @@ function moveDown(){
 	if (playerTurn )
 	{
 	player.nextMovePositionY = player.y + 35;
-	if (player.nextMovePositionY == 315)
+	
+	for (i = 0; i < 4; i++)
+	{
+	if (player.nextMovePositionX == walls[i].x && player.nextMovePositionY == walls[i].y && walls[i].active)
 	{
 		player.nextMovePositionY = player.y;
+		walls[i].health-=50;
+		
+		if (walls[i].health <=0)
+		{
+			walls[i].active = false;
+		}
+	}
+	
+	else if (player.nextMovePositionY == 315 || (player.nextMovePositionX == walls[i].x && player.nextMovePositionY == walls[i].y) )
+	{
+		if (walls[i].active)
+		{
+		player.nextMovePositionY = player.y;
+		}
+	}
+	
 	}
 	 gamerInput = new GamerInput("Down");
 	console.log("down");
@@ -308,6 +396,19 @@ function takeEnemyTurn()
 	enemyNeedsMoveLocation = false;
 	}
 	
+	for (i = 0; i < 4; i ++)
+	{
+	if (enemy.nextMovePositionX == walls[i].x && enemy.nextMovePositionY == walls[i].y && walls[i].active == true)
+	{
+		enemy.nextMovePositionX = enemy.x;
+		enemy.nextMovePositionY = enemy.y;
+		walls[i].health -= 34;
+		if (walls[i].health <=0)
+		{
+			walls[i].active = false;
+		}
+	}
+	}
 	
 	if (enemy.nextMovePositionX == player.nextMovePositionX && enemy.nextMovePositionY==player.nextMovePositionY)
 	{
@@ -315,6 +416,7 @@ function takeEnemyTurn()
 		player.health -=30;
 		playerTurn = true;
 	}
+	
 	
 	
 	else if (enemy.x < enemy.nextMovePositionX)
@@ -451,9 +553,27 @@ function draw() {
     // Iterate through all GameObjects
     // Draw each GameObject
     // console.log("Draw");
+	for (i = 0 ;i < 4; i++)
+	{
+	if (walls[i].health === 100)
+	{
+		walls[i].img = wallSprite;	
+	}
+	else if (walls[i].health >50 )
+	{
+		walls[i].img = wallSpriteBroken;
+	}
+	else if (walls[i].health <=50)
+	{
+		walls[i].img = wallSpriteBroken2;
+	}
+	}
+	
+	
+	
 	
 	context.clearRect(0, 0, canvas.width * 4, canvas.height * 4);
-
+	
 	
 
     // Sprite
@@ -471,7 +591,7 @@ function draw() {
     //context.drawImage(gameobjects[1].img, (sprite.width / 6) * currentFrame, 0, 100, 100, gameobjects[1].x, gameobjects[1].y, 256, 256);	
 	
 	
-	for (var i = 0; i < 10; i ++)
+	for (i = 0; i < 10; i ++)
 	{
 		for (var j = 0; j <10; j++)
 		{
@@ -502,6 +622,14 @@ function draw() {
 	{
 		context.drawImage(doorKey.img,player.x,player.y);
 	}
+	
+	for (i = 0;i < 4; i++)
+	{
+	if (walls[i].active == true)
+	{
+	context.drawImage(walls[i].img,walls[i].x,walls[i].y);
+	}
+	}
    var width = 100;
    var height = 20;
    var max = 100;
@@ -528,7 +656,7 @@ function drawOuterWalls()
 		context.drawImage(floorSprite,0,0 ); //draw sprite for floor
 	
 	
-	for (var i = 0; i <10; i++)//draw sprites for outer walls
+	for (i = 0; i <10; i++)//draw sprites for outer walls
 	{
 	
 	context.drawImage(wallSprite,i*35,0);
