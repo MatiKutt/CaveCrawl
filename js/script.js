@@ -483,7 +483,7 @@ function update() {
     // console.log("Update");
 	updateScore();
 	
-	console.log(localStorage.getItem("health"));
+	//console.log(localStorage.getItem("health"));
 	localStorage.setItem("health",player.health);
 	
 	
@@ -718,7 +718,7 @@ function animate() {
         currentFrame = (currentFrame + 1) % frames; // update frame
         initial = current; // reset initial
     } 
-	console.log(currentFrame);
+	//console.log(currentFrame);
 }
 
 function gameloop() {

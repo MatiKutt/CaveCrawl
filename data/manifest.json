@@ -1,6 +1,6 @@
 {
-  "name": "Mati Kutt PWA",
-  "short_name": "PWA",
+  "name": "CaveCrawl",
+  "short_name": "CC",
 
   "icons": [
     {
@@ -46,5 +46,5 @@
   "display": "minimal-ui",
   "orientation": "landscape",
   "scope": "/",
-  "start_url": "gameLoop.html"
+  "start_url": "./gameLoop.html"
 }
