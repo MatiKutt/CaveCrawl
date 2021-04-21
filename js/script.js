@@ -103,13 +103,7 @@ function onPageLoad()
 	window.innerWidth = window.outerWidth;
 	window.innerHeight = window.outerHeight;
 	
-	'use strict';
-	if ('serviceWorker' in navigator) {
-      navigator.serviceWorker
-               .register('./service_worker.js');
-			   console.log("register function");
-    }
-	console.log("try to fetch manifest");
+	
 	initLevel();
 	
 	
@@ -170,6 +164,14 @@ function keyObject() {
 
 function initLevel()
 {
+	'use strict';
+	if ('serviceWorker' in navigator) {
+      navigator.serviceWorker
+               .register('./service_worker.js');
+			   console.log("register function");
+    }
+	console.log("try to fetch manifest");
+	
 	initEnemy();
 	player.x = 35;
 	player.y = 35;
