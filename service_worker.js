@@ -1,4 +1,4 @@
-var cacheName = 'matiKutt-pwa';
+var cacheName = 'CaveCrawl';
 var filesToCache = [
   './',
   './index.html',
