@@ -45,6 +45,6 @@
   "background_color": "#000000",
   "display": "minimal-ui",
   "orientation": "landscape",
-  "scope": "/",
+  "scope": "./gameLoop.html",
   "start_url": "./gameLoop.html"
 }
