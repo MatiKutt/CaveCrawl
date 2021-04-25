@@ -9,8 +9,14 @@ h1{
 
  
 }
+h4{
+	text-align: center;
+  margin-left: auto;
+  margin-right: auto;
+  color: #fff5f5;
 
-
+ 
+}
 
 .buttons{
 padding-left: 0;

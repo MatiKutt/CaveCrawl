@@ -472,7 +472,7 @@ function playerDies(){
 	initLevel();
 	player.health = 100;
 	localStorage.setItem("health",100);
-	
+	localStorage.setItem("floor",0);
 	
 }
 
@@ -486,7 +486,7 @@ function update() {
 	//console.log(localStorage.getItem("health"));
 	localStorage.setItem("health",player.health);
 	
-	
+	localStorage.setItem("floor",floor);
 	
 	
 	if (player.health <=0)
