@@ -103,7 +103,7 @@ function onPageLoad()
 	window.innerWidth = window.outerWidth;
 	window.innerHeight = window.outerHeight;
 	
-	
+	floor = localStorage.getItem("floor");
 	initLevel();
 	
 	
@@ -483,10 +483,12 @@ function update() {
     // console.log("Update");
 	updateScore();
 	
+	
+	
 	//console.log(localStorage.getItem("health"));
 	localStorage.setItem("health",player.health);
 	
-	localStorage.setItem("floor",floor);
+	
 	
 	
 	if (player.health <=0)
@@ -500,6 +502,7 @@ function update() {
 	if (player.x == 280 && player.y == 280 && doorKey.active == false)
 	{
 		floor++;
+		localStorage.setItem("floor",floor);
 		initLevel();
 	}
 	
