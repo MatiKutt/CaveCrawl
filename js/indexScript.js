@@ -2,7 +2,7 @@
 
 function onIndexLoad()
 {
-	
+	console.log("index registered");
 	'use strict';
 	if ('serviceWorker' in navigator) {
       navigator.serviceWorker
